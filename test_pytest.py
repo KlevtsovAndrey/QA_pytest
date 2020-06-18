@@ -1,10 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 import pytest
-import time
 
 @pytest.fixture()
 def test_setup():
@@ -48,6 +48,7 @@ def test_avtodispetcher(test_setup):
         el = driver.find_element(By.ID, 'triggerFormD')
         hover = ActionChains(driver).move_to_element(el)
         hover.perform()
+        WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.ID, 'triggerFormD')))
         el.click()
         driver.find_element(By.NAME, 'v')
         driver.find_element(By.NAME, 'v').clear()
@@ -64,6 +65,3 @@ def test_avtodispetcher(test_setup):
         EC.text_to_be_present_in_element((By.ID, 'f_fp'), '4002')
         print('Новая цена: 4002 руб.')
         print('Тест завершен успешно')
-
-
-
